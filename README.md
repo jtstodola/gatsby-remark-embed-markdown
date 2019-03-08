@@ -1,6 +1,6 @@
 # gatsby-remark-embed-markdown
 
-Embeds the contents of specified files within Prism-formatted HTML blocks.
+Embeds the content of a specified markdown file within another markdown file.
 
 ## Overview
 
