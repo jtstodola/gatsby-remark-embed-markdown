@@ -6,7 +6,6 @@
     "embed",
     "gatsby",
     "gatsby-plugin",
-    "prism",
     "remark"
   ],
   "description": "Gatsby plugin to embed markdown fragments within markdown",
