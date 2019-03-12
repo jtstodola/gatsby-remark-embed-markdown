@@ -32,8 +32,7 @@
     "test": "jest"
   },
   "peerDependencies": {
-    "gatsby": ">2.0.0-alpha",
-    "gatsby-remark-prismjs": ">3.0.0-alpha"
+    "gatsby": ">2.0.0-alpha"
   },
   "main": "index.js"
 }
