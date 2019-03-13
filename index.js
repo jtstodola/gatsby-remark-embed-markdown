@@ -1,3 +1,8 @@
+/**
+ * Copyright 2019 Comcast Cable Communications Management, LLC
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ **/
+
 const fs = require("fs");
 const normalizePath = require("normalize-path");
 const visit = require("unist-util-visit");
