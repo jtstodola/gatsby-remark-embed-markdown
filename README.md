@@ -1,6 +1,6 @@
 # gatsby-remark-embed-markdown
 
-Embeds the content of a specified markdown file within another markdown file.
+Embeds the content of a specified markdown file as HTML within another markdown file.
 
 ## Overview
 
@@ -12,6 +12,13 @@ For example, given the following project directory structure:
 ./examples/
 ├── sample-markdown-file.md
 ```
+
+Example of contents in the `/examplessample-markdown-file.md`:
+```md
+## This is an example of an embedded markdown fragment.
+
+```
+
 
 The following markdown syntax is used to embed the contents of these files:
 
@@ -27,7 +34,7 @@ The resulting HTML for the above markdown would look something like this:
 ```html
 <h1>Sample Markdown</h1>
 <div class="markdown-fragment">
-  <!-- Embedded content here ... -->
+  <h2>This is an example of an embedded markdown fragment.</h2>
 </div>
 ```
 
@@ -59,3 +66,6 @@ module.exports = {
   ]
 }
 ```
+
+
+If you are looking to embed markdown in a code block, look into the [gatsby-remark-embed-snippet](https://www.gatsbyjs.org/packages/gatsby-remark-embed-snippet) plugin.

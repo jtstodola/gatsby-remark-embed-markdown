@@ -1,7 +1,9 @@
 {
   "name": "gatsby-remark-embed-markdown",
   "license": "Apache-2.0",
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "author": "Jessica Stodola",
+  "repository": "https://github.com/jtstodola/gatsby-remark-embed-markdown",
   "keywords": [
     "markdown",
     "embed",
