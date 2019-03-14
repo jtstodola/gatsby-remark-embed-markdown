@@ -13,7 +13,7 @@ For example, given the following project directory structure:
 ├── sample-markdown-file.md
 ```
 
-Example of contents in the `/examplessample-markdown-file.md`:
+Example of contents in `/examples/sample-markdown-file.md`:
 ```md
 ## This is an example of an embedded markdown fragment.
 
