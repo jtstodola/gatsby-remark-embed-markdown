@@ -8,7 +8,6 @@ const normalizePath = require("normalize-path");
 const visit = require("unist-util-visit");
 const unified = require('unified');
 const parse = require('remark-parse');
-const html = require('remark-html');
 
 module.exports = function (_ref, _temp) {
   var markdownAST = _ref.markdownAST;
@@ -35,13 +34,13 @@ module.exports = function (_ref, _temp) {
         throw Error(`Invalid fragment specified; no such file "${ path }"`);
       }
 
-      const code = fs.readFileSync(path, "utf8");
-
-      const markdown = unified().use(parse).use(html);
-
       try {
-        node.value = `<div class=\"markdown-fragment\">${ markdown.processSync(code) }</div>`;
-        node.type = "html";
+        const embedMarkdownAST = unified().use(parse).parse(fs.readFileSync(path, "utf8"));
+
+        // Reset this node to instead of containing the "inlineCode" pointing to the embedded Markdown nodes as children
+        node.type = "parent";
+        node.children = [embedMarkdownAST];
+        delete node.value;
       } catch (e) {
         throw Error(`${ e.message } \nFile: ${ file }`);
       }

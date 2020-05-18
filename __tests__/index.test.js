@@ -6,12 +6,14 @@ jest.mock(`fs`, () => {
 });
 
 const Remark = require(`remark`);
+const unified = require('unified');
+const remarkParse = require('remark-parse');
+const remarkHtml = require('remark-html');
 const fs = require(`fs`);
 const plugin = require('../index');
 const remark = new Remark();
 
 describe('gatsby-remark-embed-markdown', () => {
-  const markdown = '# This is a heading';
 
   beforeEach(() => {
     fs.existsSync.mockReset();
@@ -55,9 +57,28 @@ describe('gatsby-remark-embed-markdown', () => {
     const markdownAST = remark.parse(`\`markdown:hello-world.md\``);
     const transformed = plugin({ markdownAST }, { directory: `examples` });
 
-    expect(transformed.children[0].children[0].value)
-      .toBe(`<div class="markdown-fragment"><h1>Hello World</h1>
-</div>`);
+    // Verify correct nesting of Parent containing Root of the embedded document (with all children)
+    expect(transformed.children[0].children[0].type)
+      .toBe(`parent`);
+    expect(transformed.children[0].children[0].children[0].type)
+      .toBe(`root`);
+    expect(transformed.children[0].children[0].children[0].children[0].type)
+      .toBe(`heading`);
+    expect(transformed.children[0].children[0].children[0].children[0].children[0].type)
+      .toBe(`text`);
+    expect(transformed.children[0].children[0].children[0].children[0].children[0].value)
+      .toBe(`Hello World`);
+  });
+
+  it(`should render correct HTML from MarkdownAST`, () => {
+    fs.readFileSync.mockReturnValue('# Hello World');
+    const markdownAST = remark.parse(`\`markdown:hello-world.md\``);
+    const transformed = plugin({ markdownAST }, { directory: `examples` });
+
+    const htmlOutput = unified().use(remarkParse).use(remarkHtml).stringify(transformed);
+
+    expect(htmlOutput)
+      .toEqual(expect.stringContaining(`<h1>Hello World</h1>`));
   });
 
 });
