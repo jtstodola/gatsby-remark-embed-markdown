@@ -4,47 +4,37 @@
  **/
 
 const fs = require("fs");
-const normalizePath = require("normalize-path");
+const path = require("path")
 const visit = require("unist-util-visit");
 const unified = require('unified');
 const parse = require('remark-parse');
 const html = require('remark-html');
 
-module.exports = function (_ref, _temp) {
-  var markdownAST = _ref.markdownAST;
-
-  let _ref2 = _temp === void 0 ? {} : _temp,
-    directory = _ref2.directory;
-
-  if (!directory) {
-    throw Error(`Required option \"directory\" not specified`);
-  } else if (!fs.existsSync(directory)) {
-    throw Error(`Invalid directory specified \"${ directory }\"`);
-  } else if (!directory.endsWith("/")) {
-    directory += "/";
-  }
-
+module.exports = function ({ markdownAST, markdownNode: { fileAbsolutePath } }, pluginOptions) {
   visit(markdownAST, "inlineCode", function (node) {
     const value = node.value;
 
-    if (value.startsWith("markdown:")) {
-      const file = value.substr(9);
-      const path = normalizePath("" + directory + file);
+    if (!value.startsWith("markdown:")) {
+      return
+    }
 
-      if (!fs.existsSync(path)) {
-        throw Error(`Invalid fragment specified; no such file "${ path }"`);
-      }
+    const relativePath = value.substr(9);
+    const fileAbsoluteDir = fileAbsolutePath.substring(0, fileAbsolutePath.lastIndexOf("/"))
+    const filePath = path.join(fileAbsoluteDir, relativePath)
 
-      const code = fs.readFileSync(path, "utf8");
+    if (!fs.existsSync(filePath)) {
+      throw Error(`Invalid fragment specified; no such file "${filePath}"`);
+    }
 
-      const markdown = unified().use(parse).use(html);
+    const code = fs.readFileSync(filePath, "utf8");
 
-      try {
-        node.value = `<div class=\"markdown-fragment\">${ markdown.processSync(code) }</div>`;
-        node.type = "html";
-      } catch (e) {
-        throw Error(`${ e.message } \nFile: ${ file }`);
-      }
+    const markdown = unified().use(parse).use(html);
+
+    try {
+      node.value = `<div class=\"markdown-fragment\">${markdown.processSync(code)}</div>`;
+      node.type = "html";
+    } catch (e) {
+      throw Error(`${e.message} \nFile: ${file}`);
     }
   });
   return markdownAST;
