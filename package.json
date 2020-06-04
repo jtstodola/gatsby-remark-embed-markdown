@@ -22,13 +22,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "normalize-path": "^2.1.1",
     "parse-numeric-range": "^0.0.2",
-    "unist-util-map": "^1.0.3",
-    "unist-util-visit": "^1.4.0",
-    "unified": "^6.1.5",
     "remark-html": "^9.0.0",
-    "remark-parse": "^5.0.0"
+    "remark-parse": "^5.0.0",
+    "unified": "^6.1.5",
+    "unist-util-map": "^1.0.3",
+    "unist-util-visit": "^1.4.0"
   },
   "scripts": {
     "test": "jest"
