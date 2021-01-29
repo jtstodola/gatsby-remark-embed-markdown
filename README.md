@@ -33,9 +33,7 @@ The resulting HTML for the above markdown would look something like this:
 
 ```html
 <h1>Sample Markdown</h1>
-<div class="markdown-fragment">
-  <h2>This is an example of an embedded markdown fragment.</h2>
-</div>
+<h2>This is an example of an embedded markdown fragment.</h2>
 ```
 
 ## Installation
